@@ -60,7 +60,7 @@ extension MoviesListView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = moviesList.dequeueReusableCell(withReuseIdentifier: MoviesListView.movieCellIdentifier, for: indexPath) as! MovieCell
         let movie = viewModel.movies[indexPath.row]
-        cell.set(title: movie.title)
+        cell.set(title: movie.title, imageURL: movie.imageURL)
         return cell
     }
 }

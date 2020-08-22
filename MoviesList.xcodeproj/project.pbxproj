@@ -18,6 +18,7 @@
 		82863C0F24EC5AB200976414 /* MoviesListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82863C0E24EC5AB200976414 /* MoviesListUITests.swift */; };
 		82863C1D24EC5BED00976414 /* MoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82863C1C24EC5BED00976414 /* MoviesListView.swift */; };
 		8295F28724EEC53C000D26DA /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8295F28624EEC53C000D26DA /* MovieCell.swift */; };
+		82EAA14924F0625000A125F0 /* CachedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EAA14824F0625000A125F0 /* CachedImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		82863C1024EC5AB200976414 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82863C1C24EC5BED00976414 /* MoviesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListView.swift; sourceTree = "<group>"; };
 		8295F28624EEC53C000D26DA /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		82EAA14824F0625000A125F0 /* CachedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 		8295F28524EEC517000D26DA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				82EAA14824F0625000A125F0 /* CachedImageView.swift */,
 				82863C1C24EC5BED00976414 /* MoviesListView.swift */,
 				8295F28624EEC53C000D26DA /* MovieCell.swift */,
 			);
@@ -297,6 +300,7 @@
 				821CDA1624ED6DBC004E0791 /* MoviesList.swift in Sources */,
 				821CDA1824ED6DEB004E0791 /* Movie.swift in Sources */,
 				821CDA1A24ED6DFA004E0791 /* TMDBResponse.swift in Sources */,
+				82EAA14924F0625000A125F0 /* CachedImageView.swift in Sources */,
 				82863BEF24EC5AAE00976414 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

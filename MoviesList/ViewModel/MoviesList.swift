@@ -16,7 +16,8 @@ class MoviesList {
     
     var movies: [Movie] = []
     private var nextPageToFetch: Int = 1
-    private static let url: String = "https://api.themoviedb.org/3/movie/popular?api_key=2327d278869d309b23954dba04cff77c"
+    private static let basicURL: String = "https://api.themoviedb.org/3/movie/popular?api_key=2327d278869d309b23954dba04cff77c"
+    static let imageURLPrefix: String = "https://image.tmdb.org/t/p/w300"
     var moviesDelegate: MoviesListChangeDelegate?
     
     init() {
@@ -37,7 +38,7 @@ class MoviesList {
     }
     
     private func fetchMovies(completion: @escaping (Result<[Movie], Error>) -> ()) {
-        guard let moviesUrl = URL(string: MoviesList.url + "&page=\(nextPageToFetch)") else { return }
+        guard let moviesUrl = URL(string: MoviesList.basicURL + "&page=\(nextPageToFetch)") else { return }
         
         URLSession.shared.dataTask(with: moviesUrl) { (data, _, error) in
             if let error = error {
