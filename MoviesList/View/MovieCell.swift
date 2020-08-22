@@ -19,9 +19,11 @@ class MovieCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func set(title: String) {
-        titleLabel.text = title
+
+    // REVIEW: This should be a property. `set` looks javaish
+    var title: String? {
+        get { titleLabel.text }
+        set { titleLabel.text = newValue } // REVIEW: "newValue" is a keyword in this context
     }
     
     private func setupView() {

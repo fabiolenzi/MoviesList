@@ -28,7 +28,8 @@ class MoviesListView: UIViewController {
         moviesList.register(MovieCell.self, forCellWithReuseIdentifier: MoviesListView.movieCellIdentifier)
         
         view.addSubview(moviesList)
-        moviesList.backgroundColor = UIColor.systemBackground
+        // REVIEW: When the type of the property you are assigning to is known, you can reference static methods and properties from the type without specifying it, so you can omit "UIColor" here
+        moviesList.backgroundColor = .systemBackground
         moviesList.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -43,8 +44,10 @@ class MoviesListView: UIViewController {
 // MARK: - ViewModel Delegate
 
 extension MoviesListView: MoviesListChangeDelegate {
-    func didChangeList(of movies: [Movie]) {
+    // REVIEW: This is just a convention, but when you define delegated methods, it is common practice to pass the object that is the source of the event as the first parameter like so 👇
+    func moviesListViewModel(_ viewModel: MoviesListViewModel, didChangeMovies movies: [Movie]) {
         DispatchQueue.main.async {
+            // REVIEW: It is common to see this kind of approach, but reloading the whole list is not ideal for all scenarios. You should prefer to only reload the items that changed, as it has better performance and the framework handles animations for you. For instance, if you are just loading more items into a list, you could simply notify the collection view of the addition of those items, as the existing items remain the same. More recent frameworks even offer better APIs for that (like IGListKit), but for the pagination example it is quite easy to know what actually changed.
             self.moviesList.reloadData()
         }
     }
@@ -58,9 +61,11 @@ extension MoviesListView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // REVIEW: This is a questions of preference, but some people might actually complain about the force unwrap here. In this case, if the casting fails, it means there is an implementation error and the app should really break anyway. There are other scenarios though where you should use a safer approach like `guard let` to unwrap this value. Again, this is a question of preference, but some people have strong opinions and you should know how to explain why in this case, it is not actually a problem to use the force unwrap.
         let cell = moviesList.dequeueReusableCell(withReuseIdentifier: MoviesListView.movieCellIdentifier, for: indexPath) as! MovieCell
         let movie = viewModel.movies[indexPath.row]
-        cell.set(title: movie.title)
+        // REVIEW: You should prefer to use simple properties to assign values like this. The way you did is not wrong, but it doesn't look "swifty"
+        cell.title = movie.title
         return cell
     }
 }
@@ -71,6 +76,7 @@ extension MoviesListView: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // REVIEW: In Swift 5 we are not required to use the keyword "return" if there is only one expression in the body of the method or closure, but it is, at least for now, still a matter of preference. The only thing you should NOT do is mix both approaches. Choose one way or the other and keep consistency. (Just to make it clear, here you have the "return", but in the method above you dont)
         return 10
     }
 }
