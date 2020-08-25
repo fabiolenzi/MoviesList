@@ -11,57 +11,67 @@ import UIKit
 class MovieCell: UICollectionViewCell {
     private var titleLabel = UILabel()
     private var posterImage = UIImageView()
-    
+    private var requester = Requester()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // REVIEW: This should be a property. `set` looks javaish
     var title: String? {
         get { titleLabel.text }
-        set { titleLabel.text = newValue } // REVIEW: "newValue" is a keyword in this context
+        set { titleLabel.text = newValue }
     }
-    
-    private func fetchPosterImage(for imageURL: String) {
-        guard let fullURL = URL(string: MoviesList.imageURLPrefix + imageURL) else { return }
-        URLSession.shared.dataTask(with: fullURL) { data, _, error in
-            if let error = error {
-                print("Error fetching image: \(error)")
-            }
-            if let data = data {
+
+    func updateImage(from url: String) {
+        requester.fetchPosterImage(from: url) { result in
+            switch result {
+            case .failure(let error):
+                print("error: \(error)")
+
+            case .success(let image):
                 DispatchQueue.main.async {
-                    self.posterImage.image = UIImage(data: data)
+                    self.posterImage.image = image
                 }
             }
-        }.resume()
+        }
     }
-    
+
     private func setupView() {
-        backgroundColor = UIColor.systemGray3
+        backgroundColor = .systemGray3
         posterImage.layer.masksToBounds = true
-        posterImage.layer.cornerRadius = 5
-        layer.cornerRadius = 10
-        
+        posterImage.layer.cornerRadius = MovieCell.posterImageCornerRadius
+        layer.cornerRadius = MovieCell.cellCornerRadius
+
         addSubview(titleLabel)
         addSubview(posterImage)
-        titleLabel.font = UIFont.systemFont(ofSize: 16)
+        titleLabel.font = UIFont.systemFont(ofSize: MovieCell.movieTitleFontSize)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         posterImage.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
+            posterImage.heightAnchor.constraint(equalToConstant: MovieCell.posterImageHeight),
             posterImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            posterImage.widthAnchor.constraint(equalToConstant: 60),
-            posterImage.heightAnchor.constraint(equalToConstant: 40),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
-            titleLabel.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            titleLabel.heightAnchor.constraint(equalToConstant: 20)
+            posterImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: MovieCell.cellPadding),
+            posterImage.widthAnchor.constraint(equalToConstant: MovieCell.posterImageWidth),
+            titleLabel.heightAnchor.constraint(equalToConstant: MovieCell.movieTitleHeight),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: MovieCell.cellPadding),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -MovieCell.cellPadding)
         ])
     }
+
+    // MARK: - UI Constants
+
+    private static let posterImageHeight: CGFloat = 40
+    private static let posterImageWidth: CGFloat = 60
+    private static let posterImageCornerRadius: CGFloat = 5
+    private static let cellCornerRadius: CGFloat = 10
+    private static let cellPadding: CGFloat = 24
+    private static let movieTitleHeight: CGFloat = 20
+    private static let movieTitleFontSize: CGFloat = 16
 }
