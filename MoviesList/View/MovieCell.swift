@@ -11,7 +11,6 @@ import UIKit
 class MovieCell: UICollectionViewCell {
     private var titleLabel = UILabel()
     private var posterImage = UIImageView()
-    private var requester = Requester()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,7 +27,7 @@ class MovieCell: UICollectionViewCell {
     }
 
     func updateImage(from url: String) {
-        requester.fetchPosterImage(from: url) { result in
+        Requester.shared.fetchPosterImage(from: url) { result in
             switch result {
             case .failure(let error):
                 print("error: \(error)")

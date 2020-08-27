@@ -22,7 +22,6 @@ class MoviesListViewModel {
             return next
         }
     }
-    private let requester = Requester()
 
     var moviesDelegate: MoviesListInsertionDelegate?
     
@@ -31,7 +30,7 @@ class MoviesListViewModel {
     }
     
     private func loadMovies(for nextPage: Int) {
-        requester.fetchMovies(for: nextPage) { result in
+        Requester.shared.fetchMovies(for: nextPage) { result in
             switch result {
             case .failure(let error):
                 print("Can't load movies: \(error)")

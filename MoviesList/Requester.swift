@@ -12,6 +12,10 @@ class Requester {
 
     static let basicURL: String = "https://api.themoviedb.org/3/movie/popular?api_key=2327d278869d309b23954dba04cff77c"
     static let imageURLPrefix: String = "https://image.tmdb.org/t/p/w300"
+    
+    static let shared = Requester()
+    
+    private init() {}
 
     @discardableResult
     func fetchMovies(for page: Int, completion: @escaping (Result<[Movie], Error>) -> ()) -> Cancelable {
