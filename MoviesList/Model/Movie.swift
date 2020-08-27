@@ -20,7 +20,7 @@ struct Movie: Codable {
     private enum CodingKeys: String, CodingKey {
         case id
         case title
-        case imageURL = "backdrop_path"
+        case imageURL = "poster_path"
         case overview
         case score = "vote_average"
         case releaseDate = "release_date"

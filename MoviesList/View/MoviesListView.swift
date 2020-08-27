@@ -59,8 +59,9 @@ extension MoviesListView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // REVIEW: This is a questions of preference, but some people might actually complain about the force unwrap here. In this case, if the casting fails, it means there is an implementation error and the app should really break anyway. There are other scenarios though where you should use a safer approach like `guard let` to unwrap this value. Again, this is a question of preference, but some people have strong opinions and you should know how to explain why in this case, it is not actually a problem to use the force unwrap.
-        let cell = moviesList.dequeueReusableCell(withReuseIdentifier: MoviesListView.movieCellIdentifier, for: indexPath) as! MovieCell
+        guard let cell = moviesList.dequeueReusableCell(withReuseIdentifier: MoviesListView.movieCellIdentifier, for: indexPath) as? MovieCell else {
+            fatalError("Unable to unwrap collection cell.")
+        }
         let movie = viewModel.movies[indexPath.row]
         cell.title = movie.title
         cell.updateImage(from: movie.imageURL)
@@ -80,6 +81,6 @@ extension MoviesListView: UICollectionViewDelegateFlowLayout {
     // MARK: - UI Constants
     
     private static let cellMargin: CGFloat = 24
-    private static let cellHeight: CGFloat = 60
+    private static let cellHeight: CGFloat = 70
     private static let cellsLineSpacing: CGFloat = 10
 }

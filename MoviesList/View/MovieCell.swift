@@ -67,11 +67,11 @@ class MovieCell: UICollectionViewCell {
 
     // MARK: - UI Constants
 
-    private static let posterImageHeight: CGFloat = 40
-    private static let posterImageWidth: CGFloat = 60
+    private static let posterImageHeight: CGFloat = 50
+    private static let posterImageWidth: CGFloat = 40
     private static let posterImageCornerRadius: CGFloat = 5
     private static let cellCornerRadius: CGFloat = 10
-    private static let cellPadding: CGFloat = 24
+    private static let cellPadding: CGFloat = 12
     private static let movieTitleHeight: CGFloat = 20
     private static let movieTitleFontSize: CGFloat = 16
 }
