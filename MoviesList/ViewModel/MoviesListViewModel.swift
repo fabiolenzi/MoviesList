@@ -15,26 +15,44 @@ protocol MoviesListInsertionDelegate {
 class MoviesListViewModel {
 
     private(set) var movies: [Movie] = []
-    private var nextPageToFetch: Int = 1
+    private let amountOfMoviesPerPage: Int = 20
+    private var nextPageToFetch: Int {
+        get {
+            let next = (movies.count / amountOfMoviesPerPage) + 1
+            return next
+        }
+    }
     private let requester = Requester()
 
     var moviesDelegate: MoviesListInsertionDelegate?
     
     init() {
-        addNewMoviesPage()
+        loadMovies(for: nextPageToFetch)
     }
-
-    // REVIEW: Method names should be clear about what they do and easy to understand. In this case, the word `add` makes me think I should be passing a value to be added, but the method received no parameters. This indicates the method has side effects, but the method name is not clear as to what they are either. Something like "fetchNextPage" would be more appropriate. Note: you should try to avoid side effects whenever possible ;) it is a code smell and makes the flow of data harder to understand.
-    private func addNewMoviesPage() {
-        requester.fetchMovies(for: nextPageToFetch) { result in
+    
+    private func loadMovies(for nextPage: Int) {
+        requester.fetchMovies(for: nextPage) { result in
             switch result {
             case .failure(let error):
                 print("Can't load movies: \(error)")
-            case .success(let fetchedMovies):
-                self.movies.append(contentsOf: fetchedMovies)
-                self.nextPageToFetch += 1
+            case .success(let movies):
+                self.movies.append(contentsOf: movies)
                 self.moviesDelegate?.moviesListViewModel(self, didInsertMovies: self.movies)
             }
         }
     }
+
+//    private func loadMovies(for nextPage: Int) -> [Movie]? {
+//        var fetchResult: [Movie]?
+//        requester.fetchMovies(for: nextPage) { result in
+//            switch result {
+//            case .failure(let error):
+//                print("Can't load movies: \(error)")
+//                fetchResult = nil
+//            case .success(let movies):
+//                fetchResult = movies
+//            }
+//        }
+//        return fetchResult
+//    }
 }
