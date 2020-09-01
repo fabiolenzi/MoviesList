@@ -49,10 +49,13 @@ class MoviesListView: UIViewController {
 // MARK: - ViewModel Delegate
 
 extension MoviesListView: MoviesListInsertionDelegate {
-    func moviesListViewModel(_ viewModel: MoviesListViewModel, didInsertMovies movies: [Movie]) {
-        let indexPaths = [IndexPath]()
+    func moviesListViewModel(_ viewModel: MoviesListViewModel, didInsertMovies newMovies: [Movie]) {
+        let initialIndex = viewModel.movies.count - newMovies.count
+        let indexPathes = newMovies.enumerated().map { (index, _) in
+            IndexPath(item: (initialIndex + index), section: 0)
+        }
         DispatchQueue.main.async {
-            self.moviesList.insertItems(at: indexPaths)
+            self.moviesList.insertItems(at: indexPathes)
         }
     }
 }

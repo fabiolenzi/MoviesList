@@ -40,7 +40,7 @@ class MoviesListViewModel {
                 print("Can't load movies: \(error)")
             case .success(let movies):
                 self.movies.append(contentsOf: movies)
-                self.moviesDelegate?.moviesListViewModel(self, didInsertMovies: self.movies)
+                self.moviesDelegate?.moviesListViewModel(self, didInsertMovies: movies)
             }
         }
     }
