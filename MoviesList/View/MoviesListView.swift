@@ -38,6 +38,12 @@ class MoviesListView: UIViewController {
             moviesList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
+    
+    // MARK: - UI Constants
+    
+    private static let cellMargin: CGFloat = 24
+    private static let cellHeight: CGFloat = 70
+    private static let cellsLineSpacing: CGFloat = 10
 }
 
 // MARK: - ViewModel Delegate
@@ -78,9 +84,9 @@ extension MoviesListView: UICollectionViewDelegateFlowLayout {
         MoviesListView.cellsLineSpacing
     }
     
-    // MARK: - UI Constants
-    
-    private static let cellMargin: CGFloat = 24
-    private static let cellHeight: CGFloat = 70
-    private static let cellsLineSpacing: CGFloat = 10
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.movies.count - 1 {
+            viewModel.loadNextPage()
+        }
+    }
 }
