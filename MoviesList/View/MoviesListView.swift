@@ -92,4 +92,9 @@ extension MoviesListView: UICollectionViewDelegateFlowLayout {
             viewModel.loadNextPage()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieDetails = MovieDetailsView(movie: viewModel.movies[indexPath.row])
+        navigationController?.pushViewController(movieDetails, animated: true)
+    }
 }

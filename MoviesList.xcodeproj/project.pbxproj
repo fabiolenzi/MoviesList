@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		821843D224FFE6980035890F /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821843D124FFE6980035890F /* MovieDetailsView.swift */; };
 		821CDA1824ED6DEB004E0791 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821CDA1724ED6DEB004E0791 /* Movie.swift */; };
 		821CDA1A24ED6DFA004E0791 /* TMDBResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821CDA1924ED6DFA004E0791 /* TMDBResponse.swift */; };
 		82863BED24EC5AAE00976414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82863BEC24EC5AAE00976414 /* AppDelegate.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		821843D124FFE6980035890F /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
 		821CDA1724ED6DEB004E0791 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		821CDA1924ED6DFA004E0791 /* TMDBResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBResponse.swift; sourceTree = "<group>"; };
 		82863BE924EC5AAE00976414 /* MoviesList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +162,7 @@
 			children = (
 				82863C1C24EC5BED00976414 /* MoviesListView.swift */,
 				8295F28624EEC53C000D26DA /* MovieCell.swift */,
+				821843D124FFE6980035890F /* MovieDetailsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				829A5FF124F46C7600F567BC /* MoviesListViewModel.swift in Sources */,
 				82863BED24EC5AAE00976414 /* AppDelegate.swift in Sources */,
 				821CDA1824ED6DEB004E0791 /* Movie.swift in Sources */,
+				821843D224FFE6980035890F /* MovieDetailsView.swift in Sources */,
 				821CDA1A24ED6DFA004E0791 /* TMDBResponse.swift in Sources */,
 				82863BEF24EC5AAE00976414 /* SceneDelegate.swift in Sources */,
 			);
