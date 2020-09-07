@@ -8,8 +8,9 @@
 
 import Foundation
 
-protocol MoviesListInsertionDelegate {
-    func moviesListViewModel(_ viewModel: MoviesListViewModel, didInsertMovies movies: [Movie])
+// REVIEW: I would rename this to `MoviesListViewModelDelegate`. You might want to have additional methods here and this would require you to create a new protocol or change the name of this one. Usually when you are going MVVM you have to find a way to make events in the `view model` trigger changes in the `view`. Delegation is one approach but conventionally, the delegate protocol name is linked to the type that requires a delegate, not the type of the delegate.
+protocol MoviesListViewModelDelegate {
+    func moviesListViewModel(_ viewModel: MoviesListViewModel, didInsertItemsAt indexPaths: [IndexPath])
 }
 
 class MoviesListViewModel {
@@ -23,7 +24,7 @@ class MoviesListViewModel {
         }
     }
 
-    var moviesDelegate: MoviesListInsertionDelegate?
+    var moviesDelegate: MoviesListViewModelDelegate?
     
     init() {
         loadNextPage()
@@ -40,7 +41,14 @@ class MoviesListViewModel {
                 print("Can't load movies: \(error)")
             case .success(let movies):
                 self.movies.append(contentsOf: movies)
-                self.moviesDelegate?.moviesListViewModel(self, didInsertMovies: movies)
+
+                // REVIEW: You can calculate the index paths here and pass only the indexes to the delegate
+                let initialIndex = self.movies.count - movies.count
+                let indexPaths = movies.enumerated().map { (index, _) in
+                    IndexPath(item: (initialIndex + index), section: 0)
+                }
+
+                self.moviesDelegate?.moviesListViewModel(self, didInsertItemsAt: indexPaths)
             }
         }
     }

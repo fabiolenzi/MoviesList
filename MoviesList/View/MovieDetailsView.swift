@@ -16,8 +16,12 @@ class MovieDetailsView: UIViewController {
     private var overviewLabel = UILabel()
     private var movie: Movie
     
-    init(movie: Movie) {
+    private let requester: Requester
+
+    // REVIEW: You should inject the requester
+    init(movie: Movie, requester: Requester = Requester.shared) {
         self.movie = movie
+        self.requester = requester
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,8 +36,10 @@ class MovieDetailsView: UIViewController {
     
     private func setupView() {
         view.backgroundColor = .systemBackground
-        
-        Requester.shared.fetchPosterImage(from: movie.imageURL, completion: { result in
+
+        // REVIEW: You should have a view model your views to handle this kind of logic. As this is a very simple screen, I wouldn't complain in a code review, but this kind of scenario is not really common in real projects, so just keep it in mind ;)
+        // REVIEW: Using singletons sometimes make sense. Although, you should avoid referencing them directly like this. You should have it as an injected dependency and stored in a property. Never hardcoded in your method body.
+        requester.fetchPosterImage(from: movie.imageURL, completion: { result in
             switch result {
             case .success(let poster):
                 DispatchQueue.main.async {
@@ -43,7 +49,8 @@ class MovieDetailsView: UIViewController {
                 print(error)
             }
         })
-        
+
+        // REVIEW: It would be better if you separated the layout logic from the populating logic. This method has too many responsibilities.
         titleLabel.text = movie.title
         titleLabel.numberOfLines = 0
         scoreLabel.text = "Score: \(movie.score)" //TODO: Localize it
@@ -54,12 +61,14 @@ class MovieDetailsView: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(scoreLabel)
         view.addSubview(overviewLabel)
-         
+
+        // REVIEW: As I mentioned before, you keep having to repeat this. You could create an extension with a method like `usingAutolayout()` that sets this property to false and returns the view.
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+
+        // REVIEW: This is kind of confusing, I recommend you create the constraints right after you add each view to the hierarchy.
         NSLayoutConstraint.activate([
             posterImage.heightAnchor.constraint(equalToConstant: MovieDetailsView.posterHeight),
             posterImage.widthAnchor.constraint(equalToConstant: MovieDetailsView.posterWidth),
@@ -84,7 +93,8 @@ class MovieDetailsView: UIViewController {
     }
     
     // MARK: - UI Constants
-    
+
+    // REVIEW: Namespace for the constants. (Check example in MovieListView)
     private static let titleHeight: CGFloat = 40
     private static let posterHeight: CGFloat = 160
     private static let posterWidth: CGFloat = 120
